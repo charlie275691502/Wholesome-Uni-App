@@ -1,6 +1,6 @@
 import os, pickle
 
-from StudentData import StudentData
+from CLI_App.Datas import StudentData, SubjectData
 
 class StudentDataLoader:
     data_path = "students.pkl"
@@ -23,7 +23,7 @@ class StudentDataLoader:
         if student_id in self.students :
             return self.students[student_id]
         
-        print(f"Get Student Fail. Student id Not found: [{student_id}]")
+        print(f"Get Student Fail. Student id not found: [{student_id}]")
         return None
     
     def get_students(self) -> list[StudentData]:
@@ -44,10 +44,36 @@ class StudentDataLoader:
             self.save_to_pkl()
             return True
         
-        print(f"Remove Student Fail. Student id Not found: [{student_id}]")
+        print(f"Remove Student Fail. Student id not found: [{student_id}]")
         return False
     
     def remove_all_student(self) -> bool:
         self.students = {}
+        self.save_to_pkl()
+        return True
+    
+    def student_enrol_subject(self, student_id: StudentData) -> bool:
+        student = self.get_student(student_id)
+        if student == None :
+            return False
+        
+        if (student.subjects) >= 4 :
+            print(f"Enrol fail. Subject limit exceed.")
+            return False
+        
+        student.subjects.append(SubjectData())
+        self.save_to_pkl()
+        return True
+    
+    def student_remove_subject(self, student_id: StudentData) -> bool:
+        student = self.get_student(student_id)
+        if student == None :
+            return False
+        
+        if (student.subjects) == 0 :
+            print(f"Remove Subject fail. No subject left.")
+            return False
+        
+        student.subjects.pop()
         self.save_to_pkl()
         return True
