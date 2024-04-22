@@ -1,2 +1,3 @@
 def StudentAunthentication(): 
-    pass 
+    def __init__(self):
+        pass
