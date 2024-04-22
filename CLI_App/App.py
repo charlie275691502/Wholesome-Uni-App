@@ -11,4 +11,4 @@ while(command != "x") :
         university_system.Student()
     command = input(prompt).lower()
     
-print("Thank you. Hi ")
+print("Thank you. Hi Kit.")
