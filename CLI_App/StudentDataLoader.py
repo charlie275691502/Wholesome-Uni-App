@@ -27,7 +27,7 @@ class StudentDataLoader:
         return None
     
     def get_students(self) -> list[StudentData]:
-        return self.students.values()
+        return list(self.students.values())
     
     def add_student(self, student: StudentData) -> bool:
         if student.student_id in self.students :
