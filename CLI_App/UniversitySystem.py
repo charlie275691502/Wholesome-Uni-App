@@ -1,6 +1,9 @@
+from adminsystem import AdminSystem
+
 class UniversitySystem:
     def Student(self):
         print("Student")
     
     def Admin(self):
-        print("Admin")
+        AdminSystem().admin_start()
+        #print("Admin")
