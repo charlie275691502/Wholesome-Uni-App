@@ -17,7 +17,6 @@ class AdminSystem:
                 AdminSystem().admin_remove()
             elif command == "s":
                 AdminSystem().admin_show()
-        
             command = input(prompt).lower()
     
     def admin_clear(self):
@@ -28,7 +27,6 @@ class AdminSystem:
             if command == "y" :
                 print("*****Clear code put here******")                   #code for cleaning all student data
                 print("\033[0;33m Student data cleared \033[0m")
-                AdminSystem().admin_start()
             command = input(prompt).lower()
 
     def admin_group(self):
