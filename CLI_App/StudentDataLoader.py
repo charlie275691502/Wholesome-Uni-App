@@ -1,11 +1,12 @@
 import os, pickle
 import random
 
-from Datas import StudentData, SubjectData
+from StudentData import StudentData
+from SubjectData import SubjectData
 from Validator import Validator
 
 class StudentDataLoader:
-    data_path = "students.pkl"
+    data_path = "students.data"
     
     def __init__(self) -> None:
         self.students = self.load_from_pkl()
@@ -65,7 +66,7 @@ class StudentDataLoader:
         if student == None :
             return None
         
-        if (student.subjects) >= 4 :
+        if len(student.subjects) >= 4 :
             print(f"Enrol fail. Subject limit exceed.")
             return None
         
@@ -74,16 +75,17 @@ class StudentDataLoader:
         self.save_to_pkl()
         return subject
     
-    def student_remove_subject(self, student_id: StudentData) -> SubjectData:
+    def student_remove_subject(self, student_id: StudentData, subject_id: str) -> SubjectData:
         student = self.get_student(student_id)
         if student == None :
             return False
         
-        if (student.subjects) == 0 :
-            print(f"Remove subject fail. No subject left.")
+        subject = next((subject for subject in student.subjects if subject.id == subject_id), None)
+        if subject == None :
+            print(f"Remove subject fail. Subject id not found: {subject_id}")
             return False
         
-        subject = student.subjects.pop()
+        student.subjects.remove(subject)
         self.save_to_pkl()
         return subject
     
@@ -92,7 +94,7 @@ class StudentDataLoader:
         if student == None :
             return False
         
-        if Validator.Password(new_password):
+        if not Validator.Password(new_password):
             print(f"Change password fail. Password is not valid.")
             return False
         
