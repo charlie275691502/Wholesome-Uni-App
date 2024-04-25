@@ -21,8 +21,5 @@ class SubjectData():
             return 'F'
         
     def __str__(self):
-        return json.dumps(
-            self,
-            default=lambda o: o.__dict__, 
-            indent=2)
+        return f"[ Subject::{self.id} -- mark = {self.mark} -- grade = {self.grade}]"
         
