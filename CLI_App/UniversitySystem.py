@@ -1,11 +1,7 @@
 import re
 
-# ANSI color codes
-RED = '\033[91m'
-BLUE_GREEN = '\033[96m'
-GREEN = '\033[92m'
-YELLOW = '\033[93m'
-RESET = '\033[0m'
+from CLI_App.ColorString import ColorString
+
 
 class Utils:
     EMAIL_REGEX = r'^[a-zA-Z]+[.][a-zA-Z]+@university\.com$'
@@ -19,53 +15,54 @@ def validate_password(password):
 
 def admin_system():
     while True:
-        action = input(BLUE_GREEN + "Admin System (c/g/p/r/s/x): " + RESET).lower()
+        
+        action = input(ColorString.BlueGreen("Admin System (c/g/p/r/s/x): ")).lower()
         if action == 'x':
             break  # Exit the admin system
         # Handle other actions as needed
         else:
-            print(BLUE_GREEN + "Invalid action. Please try again." + RESET)
+            print(ColorString.BlueGreen("Invalid action. Please try again"))
 
 def student_system():
     while True:
-        action = input(BLUE_GREEN + "Student System (l/r/x): " + RESET).lower()
+        action = input(ColorString.BlueGreen("Student System (l/r/x): ")).lower()
         if action == 'x':
             break  # Exit the student system
         elif action == 'l':
-            print(GREEN + "Student Sign In" + RESET)
+            print(ColorString.Green("Student Sign In"))
             email = input("Email: ")
             password = input("Password: ")
             if validate_email(email) and validate_password(password):
-                print(YELLOW + "email and password formats acceptable" + RESET)
+                print(ColorString.Yellow("email and password formats acceptable"))
                 name = input("Name: ")
-                print(YELLOW + f"Enrolling Student {name}" + RESET)
+                print(ColorString.Yellow(f"Enrolling Student {name}"))
             else:
-                print(RED + "Incorrect email or password format" + RESET)
+                ColorString.Red(f"Incorrect email or password format")
         elif action == 'r':
-            print(GREEN + "Student Sign Up" + RESET)
+            print(ColorString.Green("Student Sign In"))
             email = input("Email: ")
             password = input("Password: ")
             if validate_email(email) and validate_password(password):
-                print(YELLOW + "email and password formats acceptable" + RESET)
+                print(ColorString.Yellow("email and password formats acceptable"))
                 name = input("Name: ")
-                print(YELLOW + f"Enrolling Student {name}" + RESET)
+                print(ColorString.Yellow(f"Enrolling Student {name}"))
             else:
-                print(RED + "Incorrect email or password format" + RESET)
+                ColorString.Red(f"Incorrect email or password format")
         else:
-            print(BLUE_GREEN + "Invalid action." + RESET)
+            print(ColorString.BlueGreen("Invalid action."))
 
 def university_system():
     while True:
-        user_type = input(BLUE_GREEN + "University System: (A) dmin, (S) tudent, or X : " + RESET).lower()
+        user_type = input(ColorString.BlueGreen("University System: (A) dmin, (S) tudent, or X : ")).lower()
         if user_type == 'a':
             admin_system()
         elif user_type == 's':
             student_system()
         elif user_type == 'x':
-            print(YELLOW + "Thank You" + RESET)
+            print(ColorString.Yellow("Thank You"))
             break  # Exit the university system
         else:
-            print(BLUE_GREEN + "Invalid user type." + RESET)
+            print(ColorString.BlueGreen("Invalid user type."))
 
 # Run the university system
 university_system()
