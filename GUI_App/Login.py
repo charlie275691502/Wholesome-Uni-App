@@ -13,13 +13,15 @@ class Login:
     self.errorMessage = tk.StringVar(window)
 
   def goToRegister(self):
+    self.errorMessage.set("")
     self.onGoToRegister()
   
   def login(self):
     student = self.studentDataLoader.try_login(self.email.get(), self.password.get())
     print(student, self.email.get(), self.password.get())
     if student:
-      self.onGoToEnrollment()
+      self.errorMessage.set("")
+      self.onGoToEnrollment(student.student_id)
     else:
       self.errorMessage.set('Incorrect email or password format')
 
@@ -27,8 +29,8 @@ class Login:
     frame = tk.Frame(self.window, bg="white", padx=40, pady=10, bd=5, relief="groove")
     frame.place(relx=0.5, rely=0.5, anchor="center")
 
-    greeting = tk.Label(frame, text="Sign In", bg="white", font=("Arial", 20))
-    greeting.grid(row=0, column=0, pady=10, padx=2)
+    title = tk.Label(frame, text="Sign In", bg="white", font=("Arial", 20))
+    title.grid(row=0, column=0, pady=10, padx=2)
 
     emailLabel = tk.Label(frame, text = "Email", bg="white")
     emailLabel.grid(row = 1, column = 0, pady = 10, padx=2)

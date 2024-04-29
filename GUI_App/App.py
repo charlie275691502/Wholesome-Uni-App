@@ -13,34 +13,34 @@ class App:
 
     self.window = tk.Tk()
     self.window.geometry("600x600")
-    self.window.title("Sign Up")
+    self.window.title("Login")
     self.window.configure(bg="white")
     self.frame = None
   
     self.login = Login(studentDataLoader=self.studentDataLoader, window=self.window, onGoToRegister=self.goToRegister, onGoToEnrollment=self.goToEnrollment)
     self.register = Register(studentDataLoader=self.studentDataLoader, window=self.window, onGoToLogin=self.goToLogin, onGoToEnrollment=self.goToEnrollment)
-    self.enrollment = Enrollment(window=self.window, onGoToLogin=self.goToLogin, onGoToSubjects=self.goToSubjects)
 
   def start(self):
     self.goToLogin()
+    # self.goToEnrollment()
     self.window.mainloop()
   
   def goToLogin(self):
     if (self.frame): 
       self.frame.destroy()
+    self.window.title("Login")
     self.frame = self.login.render()
 
   def goToRegister(self):
     if (self.frame): 
       self.frame.destroy()
+    self.window.title("Register")
     self.frame = self.register.render()
 
-  def goToEnrollment(self):
+  def goToEnrollment(self, studentId):
     if (self.frame): 
       self.frame.destroy()
+    self.enrollment = Enrollment(window=self.window, studentDataLoader=self.studentDataLoader, studentId=studentId, onGoToLogin=self.goToLogin)
     self.frame = self.enrollment.render()
-
-  def goToSubjects(self):
-    return
 
 App().start()

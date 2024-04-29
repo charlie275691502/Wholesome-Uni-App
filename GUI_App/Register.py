@@ -17,6 +17,7 @@ class Register:
     self.errorMessage = tk.StringVar(window)
 
   def goToLogin(self):
+    self.errorMessage.set("")
     self.onGoToLogin()
 
   def register(self):
@@ -26,8 +27,9 @@ class Register:
 
     print(email, password, name)
     if Validator.Email(email) and Validator.Password(password):
+      self.errorMessage.set("")
       self.studentDataLoader.add_student(email, password, name)
-      self.onGoToEnrollment()
+      self.goToLogin()
     elif self.studentDataLoader.is_email_exist(email) :
       self.errorMessage.set("Email has already been registered")
     else:
@@ -37,8 +39,8 @@ class Register:
     frame = tk.Frame(self.window, bg="white", padx=40, pady=10, bd=5, relief="groove")
     frame.place(relx=0.5, rely=0.5, anchor="center")
 
-    greeting = tk.Label(frame, text="Sign Up", bg="white", font=("Arial", 20))
-    greeting.grid(row=0, column=0, pady=10, padx=2)
+    title = tk.Label(frame, text="Sign Up", bg="white", font=("Arial", 20))
+    title.grid(row=0, column=0, pady=10, padx=2)
 
     emailLabel = tk.Label(frame, text = "Email", bg="white")
     emailLabel.grid(row = 1, column = 0, pady = 10, padx=2)
