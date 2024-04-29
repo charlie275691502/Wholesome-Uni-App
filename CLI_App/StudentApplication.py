@@ -18,12 +18,9 @@ class StudentApplication():
                 new_password = input("New Password: ")
                 confirm_new_password = input("Confirm Password: ")
                 
-                while True :
+                while new_password != confirm_new_password :
+                    print(ColorString.Red("Password does not match - Try again"))
                     confirm_new_password = input("Confirm Password: ")
-                    if new_password != confirm_new_password :
-                        print(ColorString.Red("Password does not match - Try again"))
-                    else :
-                        break
                     
                 is_success = self.student_data_loader.student_change_password(
                     self.student_data.student_id,
