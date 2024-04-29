@@ -1,6 +1,8 @@
 import os, sys
 
-sys.path.insert(1, "/".join(os.path.realpath(__file__).split("/")[0:-2]) + "/Common")
+# sys.path.insert(1, "/".join(os.path.realpath(__file__).split("/")[0:-2]) + "/Common")
+sys.path.insert(1, os.sep.join(os.sep.join(os.path.realpath(__file__).split(os.sep)[0:-2]), "Common"))
+
 
 from StudentDataLoader import StudentDataLoader
 from StudentApplication import StudentApplication
