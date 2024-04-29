@@ -1,6 +1,7 @@
 import os, pickle
 import random
 
+from ColorString import ColorString
 from StudentData import StudentData
 from SubjectData import SubjectData
 from Validator import Validator
@@ -38,7 +39,7 @@ class StudentDataLoader:
         if student_id in self.students :
             return self.students[student_id]
         
-        print(f"Get Student Fail. Student id not found: [{student_id}]")
+        print(ColorString.Red(f"Get Student Fail. Student id not found: [{student_id}]"))
         return None
     
     def get_students(self) -> list[StudentData]:
@@ -59,7 +60,6 @@ class StudentDataLoader:
             self.save_to_pkl()
             return student
         
-        print(f"Remove Student Fail. Student id not found: [{student_id}]")
         return None
     
     def remove_all_student(self) -> bool:
@@ -73,7 +73,7 @@ class StudentDataLoader:
             return None
         
         if len(student.subjects) >= 4 :
-            print(f"Enrol fail. Subject limit exceed.")
+            print(ColorString.Red(f"Student are allowed to enrol in 4 subjects only."))
             return None
         
         subject = SubjectData()
@@ -88,7 +88,7 @@ class StudentDataLoader:
         
         subject = next((subject for subject in student.subjects if subject.id == subject_id), None)
         if subject == None :
-            print(f"Remove subject fail. Subject id not found: {subject_id}")
+            print(ColorString.Red(f"Remove subject fail. Subject id not found: {subject_id}"))
             return False
         
         student.subjects.remove(subject)
@@ -101,7 +101,7 @@ class StudentDataLoader:
             return False
         
         if not Validator.Password(new_password):
-            print(f"Change password fail. Password is not valid.")
+            print(ColorString.Red("Incorrect password format"))
             return False
         
         student.password = new_password

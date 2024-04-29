@@ -1,7 +1,5 @@
 from ColorString import ColorString
-from StudentData import StudentData
 from StudentDataLoader import StudentDataLoader
-
 
 class StudentApplication():
     def __init__(self, student_data_loader: StudentDataLoader):
@@ -20,14 +18,18 @@ class StudentApplication():
                 new_password = input("New Password: ")
                 confirm_new_password = input("Confirm Password: ")
                 
-                if new_password != confirm_new_password :
-                    print(ColorString.Red("Password does not match - Try again"))
-                else :
-                    is_success = self.student_data_loader.student_change_password(
-                        self.student_data.student_id,
-                        new_password)
-                    if is_success :
-                        print(ColorString.Yellow("Password updated"))
+                while True :
+                    confirm_new_password = input("Confirm Password: ")
+                    if new_password != confirm_new_password :
+                        print(ColorString.Red("Password does not match - Try again"))
+                    else :
+                        break
+                    
+                is_success = self.student_data_loader.student_change_password(
+                    self.student_data.student_id,
+                    new_password)
+                if is_success :
+                    print(ColorString.Yellow("Password updated"))
                 
             elif command == "e" :
                 subject = self.student_data_loader.student_enrol_subject(
@@ -36,10 +38,10 @@ class StudentApplication():
                 
                 if subject :
                     print(ColorString.Yellow(f"Enrolling in Subject-{subject.id}"))
-                print(ColorString.Yellow(f"You are now enrolling in {len(self.student_data.subjects)} out of 4 subjects."))
+                    print(ColorString.Yellow(f"You are now enrolling in {len(self.student_data.subjects)} out of 4 subjects."))
 
             elif command == "r" :
-                subject_id = input("Id of the subject to remove: ")
+                subject_id = input("Remove Subject by ID: ")
                 
                 subject = self.student_data_loader.student_remove_subject(
                     self.student_data.student_id,
