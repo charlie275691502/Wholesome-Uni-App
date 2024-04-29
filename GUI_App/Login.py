@@ -1,20 +1,16 @@
 import tkinter as tk
-import sys
-
-sys.path.insert(1, '../CLI_App')
-from StudentDataLoader import StudentDataLoader
 
 class Login:
-  errorMessage = 'Wrong password'
 
-  def __init__(self, window, onGoToRegister, onGoToEnrollment):
-    self.studentDataLoader = StudentDataLoader()
+  def __init__(self, studentDataLoader, window, onGoToRegister, onGoToEnrollment):
+    self.studentDataLoader = studentDataLoader
     self.onGoToRegister = onGoToRegister
     self.onGoToEnrollment = onGoToEnrollment
     self.window = window
 
     self.email = tk.StringVar(window)
     self.password = tk.StringVar(window)
+    self.errorMessage = tk.StringVar(window)
 
   def goToRegister(self):
     self.onGoToRegister()
@@ -25,7 +21,7 @@ class Login:
     if student:
       self.onGoToEnrollment()
     else:
-      self.errorMessage = 'Incorrect email or password format'
+      self.errorMessage.set('Incorrect email or password format')
 
   def render(self):
     frame = tk.Frame(self.window, bg="white", padx=40, pady=10, bd=5, relief="groove")
@@ -46,7 +42,7 @@ class Login:
     passwordEntry = tk.Entry(frame, textvariable=self.password, show="*")
     passwordEntry.grid(row = 2, column = 1, pady = 10, padx=2)
 
-    errorLabel = tk.Label(frame, text = self.errorMessage, bg="white", fg="red")
+    errorLabel = tk.Label(frame, textvariable=self.errorMessage, bg="white", fg="red")
     errorLabel.grid(row = 3, column = 0, columnspan=2, pady = 10, padx=2)
 
     loginButton = tk.Button(frame, text="Sign In", bg="white", command=self.login)
