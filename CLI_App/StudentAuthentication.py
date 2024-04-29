@@ -41,7 +41,7 @@ class StudentAunthentication():
                     
                     student_by_email = self.student_data_loader.get_student_by_email(email)
                     if student_by_email != None :
-                        print(ColorString.Red(f"Student {1} already exists"))
+                        print(ColorString.Red(f"Student {student_by_email.name} already exists"))
                     else :
                         name = input("Name: ")
                         print(ColorString.Yellow(f"Enrolling Student {name}"))
