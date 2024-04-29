@@ -9,8 +9,5 @@ class StudentData():
         self.subjects = []
         
     def __str__(self):
-        return json.dumps(
-            self,
-            default=lambda o: o.__dict__, 
-            indent=2)
+        return f"{self.name} :: {self.student_id} --> Email: {self.email}"
         
