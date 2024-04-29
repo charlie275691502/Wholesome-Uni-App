@@ -38,11 +38,14 @@ class StudentAunthentication():
                 password = input("Password: ")
                 if Validator.Email(email) and Validator.Password(password):
                     print(ColorString.Yellow("email and password formats acceptable"))
-                    name = input("Name: ")
-                    print(ColorString.Yellow(f"Enrolling Student {name}"))
-                    self.student_data_loader.add_student(email, password, name)
-                elif self.student_data_loader.is_email_exist(email) :
-                    print(ColorString.Red(f"Email has already been registered"))
+                    
+                    student_by_email = self.student_data_loader.get_student_by_email(email)
+                    if student_by_email != None :
+                        print(ColorString.Red(f"Student {1} already exists"))
+                    else :
+                        name = input("Name: ")
+                        print(ColorString.Yellow(f"Enrolling Student {name}"))
+                        self.student_data_loader.add_student(email, password, name)
                 else:
                     print(ColorString.Red(f"Incorrect email or password format"))
             else:
