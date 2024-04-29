@@ -1,5 +1,6 @@
 from Login import Login
 from Register import Register
+from Enrollment import Enrollment
 import tkinter as tk
 
 class App:
@@ -10,8 +11,9 @@ class App:
     self.window.configure(bg="white")
     self.frame = None
   
-    self.login = Login(window=self.window, onGoToRegister=self.goToRegister)
+    self.login = Login(window=self.window, onGoToRegister=self.goToRegister, onGoToEnrollment=self.goToEnrollment)
     self.register = Register(window=self.window, onGoToLogin=self.goToLogin)
+    self.enrollment = Enrollment(window=self.window, onGoToLogin=self.goToLogin, onGoToSubjects=self.goToSubjects)
 
   def start(self):
     self.goToLogin()
@@ -26,5 +28,10 @@ class App:
     if (self.frame): 
       self.frame.destroy()
     self.frame = self.register.render()
+
+  def goToEnrollment(self):
+    if (self.frame): 
+      self.frame.destroy()
+    self.frame = self.enrollment.render()
 
 App().start()
