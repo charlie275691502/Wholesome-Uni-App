@@ -32,6 +32,7 @@ class AdminSystem:
                 is_success = self.student_data_loader.remove_all_student()       #code for cleaning all student data
                 if  is_success == True:
                     print(ColorString.Yellow("Student data cleared"))
+                break
             command = input(prompt).lower()
 
     def admin_group(self):
@@ -59,8 +60,11 @@ class AdminSystem:
     def admin_show(self):
         print(ColorString.Yellow("Student List"))
         students = self.student_data_loader.get_students()        #code for showing all student data
-        for student in students :
-            print(student)
+        if len(students) > 0 :
+            for student in students :
+                print(student)
+        else :
+            print("<Nothing to Display>")
 
 
 

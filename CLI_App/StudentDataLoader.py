@@ -59,7 +59,7 @@ class StudentDataLoader:
             self.save_to_pkl()
             return student
         
-        print(f"Remove Student Fail. Student id not found: [{student_id}]")
+        # print(f"Remove Student Fail. Student id not found: [{student_id}]") # AdminSystem does not require that msg
         return None
     
     def remove_all_student(self) -> bool:
