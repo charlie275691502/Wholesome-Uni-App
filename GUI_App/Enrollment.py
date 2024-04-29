@@ -1,4 +1,5 @@
 import tkinter as tk
+from Subjects import Subjects
 
 class Enrollment:
   bg = "#edede9"
@@ -12,29 +13,16 @@ class Enrollment:
 
     self.studentName = tk.StringVar(window)
     self.errorMessage = tk.StringVar(window)
+    self.noOfSubjectsMessage = tk.StringVar(window)
     self.frame = None
-    self.subjectFrame = None
+    self.subjects = None
+    self.subjectWindow = None
 
-    self.studentName.set(self.studentData.name)
+    self.studentName.set(f"Welcome, {self.studentData.name}")
     self.errorMessage.set("")
 
   def refreshStudentData(self):
     self.studentData = self.studentDataLoader.get_student(self.studentId)
-
-    if (self.subjectFrame): self.subjectFrame.destroy()
-    self.subjectFrame = tk.Frame(self.frame, bg="white")
-    self.subjectFrame.grid(row=5, column=0, pady=10, padx=2)
-
-    if (len(self.studentData.subjects) == 0):
-      subjectLabel = tk.Label(self.subjectFrame, text="No subjects enrolled", bg=self.bg, bd=2, relief="groove")
-      subjectLabel.grid(row=0, column=0, pady=10, padx=2)
-    else:
-      for idx, subject in enumerate(self.studentData.subjects) :
-        subjectLabel = tk.Label(self.subjectFrame, text=f"Subject {subject.id} -- Mark: {subject.mark} -- Grade: {subject.grade} -- {'FAIL' if subject.is_fail else 'PASS'}", bg="white")
-        subjectLabel.grid(row=idx, column=0, pady=10, padx=2)
-
-        deleteSubjectButton = tk.Button(self.subjectFrame, text="Delete", bg="white", command=lambda: self.deleteSubject(subject.id))
-        deleteSubjectButton.grid(row=idx, column=1, pady=10, padx=2)
 
   def goToLogin(self):
     self.onGoToLogin()
@@ -47,13 +35,25 @@ class Enrollment:
       self.errorMessage.set("")
       self.studentDataLoader.student_enrol_subject(self.studentId)
       self.refreshStudentData()
+      self.showSubjectList()
 
-  def deleteSubject(self, subjectId):
-    print("DELETING SUBJECT", subjectId)
-    self.errorMessage.set("")
-    self.studentDataLoader.student_remove_subject(self.studentId, subjectId)
-    self.studentDataLoader.save_to_pkl()
-    self.refreshStudentData()
+  def updateSubjectList(self):
+    subjects = Subjects(studentDataLoader=self.studentDataLoader, studentId=self.studentId, window=self.subjectWindow, onGoToLogin=self.goToLogin)
+    self.subjects = subjects.render()
+
+  def onClosedSubjectList(self):
+    self.subjectWindow.destroy()
+    self.subjectWindow = None
+    self.subjects = None
+  
+  def showSubjectList(self):
+    if not (self.subjectWindow):
+      self.subjectWindow = tk.Tk()
+      self.subjectWindow.geometry("300x400")
+      self.subjectWindow.title("Subject List")
+      self.subjectWindow.configure(bg="#edede9")
+      self.subjectWindow.protocol("WM_DELETE_WINDOW", self.onClosedSubjectList)
+    self.updateSubjectList()
 
   def render(self):
     frame = tk.Frame(self.window, bg=self.bg, padx=40, pady=10)
@@ -61,19 +61,19 @@ class Enrollment:
     self.frame = frame
 
     logoutButton = tk.Button(frame, text="Logout", bg=self.bg, command=self.goToLogin)
-    logoutButton.grid(row=0, column=3, pady=10, padx=2)
+    logoutButton.grid(row=0, column=2, pady=10, padx=2)
 
-    greeting = tk.Label(frame, textvariable=self.studentName)
-    greeting.grid(row=1, column=0, pady=10, padx=2)
-
-    title = tk.Label(frame, text="Subject Enrollments", font=("Arial", 20))
-    title.grid(row=2, column=0, pady=10, padx=2)
+    title = tk.Label(frame, textvariable=self.studentName, font=("Arial", 20))
+    title.grid(row=2, column=0, columnspan=2, pady=10, padx=2)
 
     errorLabel = tk.Label(frame, textvariable=self.errorMessage, fg="red")
-    errorLabel.grid(row=3, column = 0, pady = 10, padx=2)
+    errorLabel.grid(row=4, column = 0, columnspan=2, pady = 10, padx=2)
 
-    addSubjectButton = tk.Button(frame, text="Add Subject", command=self.addSubject)
-    addSubjectButton.grid(row = 4, column = 0, columnspan=2, pady = 10, padx=2)
+    addSubjectButton = tk.Button(frame, text="Enroll in Subject", command=self.addSubject)
+    addSubjectButton.grid(row = 5, column = 0, pady = 10, padx=2)
+
+    goToSubjectListButton = tk.Button(frame, text="Show Subjects List", command=self.showSubjectList)
+    goToSubjectListButton.grid(row = 5, column = 1, pady = 10, padx=2)
 
     self.refreshStudentData()
 

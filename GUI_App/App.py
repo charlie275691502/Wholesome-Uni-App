@@ -16,31 +16,30 @@ class App:
     self.window.title("Login")
     self.window.configure(bg="#edede9")
     self.frame = None
-    self.login = Login(studentDataLoader=self.studentDataLoader, window=self.window, onGoToRegister=self.goToRegister, onGoToEnrollment=self.goToEnrollment)
-
-  def start(self):
-    # self.goToLogin()
-    self.goToEnrollment()
-    self.window.mainloop()
   
   def goToLogin(self):
     if (self.frame): 
       self.frame.destroy()
+    login = Login(studentDataLoader=self.studentDataLoader, window=self.window, onGoToRegister=self.goToRegister, onGoToEnrollment=self.goToEnrollment)
     self.window.title("Login")
-    self.frame = self.login.render()
+    self.frame = login.render()
 
   def goToRegister(self):
     if (self.frame): 
       self.frame.destroy()
-    self.register = Register(studentDataLoader=self.studentDataLoader, window=self.window, onGoToLogin=self.goToLogin, onGoToEnrollment=self.goToEnrollment)
+    register = Register(studentDataLoader=self.studentDataLoader, window=self.window, onGoToLogin=self.goToLogin, onGoToEnrollment=self.goToEnrollment)
     self.window.title("Register")
-    self.frame = self.register.render()
+    self.frame = register.render()
 
   def goToEnrollment(self, studentId="199711"):
     if (self.frame): 
       self.frame.destroy()
-    self.enrollment = Enrollment(window=self.window, studentDataLoader=self.studentDataLoader, studentId=studentId, onGoToLogin=self.goToLogin)
+    enrollment = Enrollment(window=self.window, studentDataLoader=self.studentDataLoader, studentId=studentId, onGoToLogin=self.goToLogin)
     self.window.title("Enrollment")
-    self.frame = self.enrollment.render()
+    self.frame = enrollment.render()
+
+  def start(self):
+    self.goToLogin()
+    self.window.mainloop()
 
 App().start()
