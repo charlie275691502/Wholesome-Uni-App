@@ -29,8 +29,8 @@ class StudentDataLoader:
             student_id = "{:06d}".format(random.randint(1, 999999))
         return student_id
     
-    def is_email_exist(self, email: str) -> bool :
-        return any([student for student_id, student in self.students.items() if student.email == email])
+    def get_student_by_email(self, email: str) -> StudentData :
+        return next((student for student_id, student in self.students.items() if student.email == email), None)
     
     def try_login(self, email: str, password: str) -> StudentData :
         return next(iter([student for student_id, student in self.students.items() if student.email == email and student.password == password]), None)
