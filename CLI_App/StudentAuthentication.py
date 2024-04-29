@@ -16,13 +16,20 @@ class StudentAunthentication():
                 break  # Exit the student system
             elif action == 'l':
                 print(ColorString.Green("Student Sign In"))
+                
                 email = input("Email: ")
                 password = input("Password: ")
+                while not Validator.Email(email) or not Validator.Password(password):
+                    print(ColorString.Red(f"Incorrect email or password format"))
+                    email = input("Email: ")
+                    password = input("Password: ")
+                    
+                print(ColorString.Yellow(f"email and password formats acceptable"))
+                
                 student = self.student_data_loader.try_login(email, password)
                 if student == None :
-                    print(ColorString.Red(f"Incorrect email or password format"))
+                    print(ColorString.Red(f"Student does not exist"))
                 else :
-                    print(ColorString.Yellow(f"email and password formats acceptable"))
                     self.studentApplication.start(student.student_id)
                     
             elif action == 'r':
