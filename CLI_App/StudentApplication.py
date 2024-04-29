@@ -1,7 +1,5 @@
 from ColorString import ColorString
-from StudentData import StudentData
 from StudentDataLoader import StudentDataLoader
-
 
 class StudentApplication():
     def __init__(self, student_data_loader: StudentDataLoader):
