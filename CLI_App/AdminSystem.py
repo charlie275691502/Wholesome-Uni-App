@@ -1,7 +1,20 @@
+import itertools
 from ColorString import ColorString
 from StudentDataLoader import StudentDataLoader
+from StudentData import StudentData
+from SubjectData import SubjectData
 
 class AdminSystem:
+    class AverageGrade :
+        def __init__(self, student: StudentData) :
+            self.student = student
+            self.mark = sum([subject.mark for subject in student.subjects]) / len(student.subjects)
+            self.grade = SubjectData.mark_to_grade(self.mark)
+            self.is_fail = self.grade == 'F'
+              
+        def __str__(self) -> str:
+            return f"{self.student.name} :: {self.student.student_id} --> GRADE: {self.grade} - MARK: {round(self.mark, 2)}"
+    
     def __init__(self, student_data_loader: StudentDataLoader) -> None:
         self.student_data_loader = student_data_loader
         pass
@@ -37,16 +50,24 @@ class AdminSystem:
 
     def admin_group(self):
         print(ColorString.Yellow("Grade Grouping"))
-        print("Selected Admin group student")           
+        
         students = self.student_data_loader.get_students()         #code for showing all student by Grade
-        sorted(students, key=lambda student : student.subjects)
-
-        # check the criteria next class
+        
+        student_average_grades = [self.AverageGrade(student) for student in students]
+        for grade, group in itertools.groupby(student_average_grades, lambda student_average_grade : student_average_grade.grade): 
+            print(f"{grade} --> [{', '.join(str(item) for item in group)}]") 
+        
 
     def admin_partition(self):
         print(ColorString.Yellow("PASS/FAIL Partition"))
-        print("Selected Admin partition student")       #code for listing PASS+FAIL student all student data
-        # avg. marks for all the subject of ONE student?
+        
+        students = self.student_data_loader.get_students()         #code for showing all student by Grade
+        student_average_grades = [self.AverageGrade(student) for student in students]
+        
+        fail_group = [student_average_grade for student_average_grade in student_average_grades if student_average_grade.is_fail]
+        pass_group = [student_average_grade for student_average_grade in student_average_grades if not student_average_grade.is_fail]
+        print(f"FAIL --> [{', '.join(str(item) for item in fail_group)}]")
+        print(f"PASS --> [{', '.join(str(item) for item in pass_group)}]")
 
     def admin_remove(self):
         prompt = "Remove by ID: "

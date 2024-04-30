@@ -5,16 +5,17 @@ class SubjectData():
     def __init__(self) -> None:
         self.id = "{:03d}".format(random.randint(1, 999))
         self.mark = random.randint(25, 100)
-        self.grade = self.mark_to_grade(self.mark)
+        self.grade = SubjectData.mark_to_grade(self.mark)
         self.is_fail = self.grade == 'F'
         
-    def mark_to_grade(self, mark):
+    @staticmethod
+    def mark_to_grade(mark):
         if mark >= 85:
             return 'HD'
         elif mark >= 75:
             return 'D'
         elif mark >= 65:
-            return 'CR'
+            return 'C'
         elif mark >= 50:
             return 'P'
         else:
