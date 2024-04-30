@@ -53,7 +53,7 @@ class AdminSystem:
         
         students = self.student_data_loader.get_students()         #code for showing all student by Grade
         
-        student_average_grades = [self.AverageGrade(student) for student in students]
+        student_average_grades = [self.AverageGrade(student) for student in students if len(student.subjects) > 0]
         for grade, group in itertools.groupby(student_average_grades, lambda student_average_grade : student_average_grade.grade): 
             print(f"{grade} --> [{', '.join(str(item) for item in group)}]") 
         
@@ -62,7 +62,7 @@ class AdminSystem:
         print(ColorString.Yellow("PASS/FAIL Partition"))
         
         students = self.student_data_loader.get_students()         #code for showing all student by Grade
-        student_average_grades = [self.AverageGrade(student) for student in students]
+        student_average_grades = [self.AverageGrade(student) for student in students if len(student.subjects) > 0]
         
         fail_group = [student_average_grade for student_average_grade in student_average_grades if student_average_grade.is_fail]
         pass_group = [student_average_grade for student_average_grade in student_average_grades if not student_average_grade.is_fail]
