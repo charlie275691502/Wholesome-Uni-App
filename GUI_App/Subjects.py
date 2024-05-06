@@ -1,4 +1,5 @@
 import tkinter as tk
+import copy
 
 class Subjects:
   bg = "#edede9"
@@ -21,7 +22,9 @@ class Subjects:
   def refreshStudentData(self):
     self.studentData = self.studentDataLoader.get_student(self.studentId)
 
-    if (self.subjectFrame): self.subjectFrame.destroy()
+    if (self.subjectFrame): 
+      self.subjectFrame.forget()
+      self.subjectFrame.destroy()
     self.subjectFrame = tk.Frame(self.frame, bg="white")
     self.subjectFrame.grid(row=5, column=0, pady=10, padx=2)
 
@@ -33,11 +36,10 @@ class Subjects:
         subjectLabel = tk.Label(self.subjectFrame, text=f"Subject {subject.id} -- Mark: {subject.mark} -- Grade: {subject.grade} -- {'FAIL' if subject.is_fail else 'PASS'}", bg="white")
         subjectLabel.grid(row=idx, column=0, pady=10, padx=2)
 
-        deleteSubjectButton = tk.Button(self.subjectFrame, text="Delete", bg="white", command=lambda: self.deleteSubject(subject.id))
+        deleteSubjectButton = tk.Button(self.subjectFrame, text="Delete", bg="white", command=lambda s=subject: self.deleteSubject(s.id))
         deleteSubjectButton.grid(row=idx, column=1, pady=10, padx=2)
 
   def deleteSubject(self, subjectId):
-    print("DELETING SUBJECT", subjectId)
     self.errorMessage.set("")
     self.studentDataLoader.student_remove_subject(self.studentId, subjectId)
     self.studentDataLoader.save_to_pkl()

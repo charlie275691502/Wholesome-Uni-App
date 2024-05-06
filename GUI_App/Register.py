@@ -35,12 +35,16 @@ class Register:
     name = self.name.get()
 
     print(email, password, name)
-    if Validator.Email(email) and Validator.Password(password):
+    if name == '':
+       self.errorMessage.set("Name cannot be empty")
+    elif Validator.Email(email) and Validator.Password(password):
       self.errorMessage.set("")
-      self.studentDataLoader.add_student(email, password, name)
-      self.goToLogin()
-    elif self.studentDataLoader.is_email_exist(email) :
-      self.errorMessage.set("Email has already been registered")
+      student_by_email = self.studentDataLoader.get_student_by_email(email)
+      if student_by_email != None :
+        self.errorMessage.set(f"Student {student_by_email.name} already exists")
+      else:
+        self.studentDataLoader.add_student(email, password, name)
+        self.goToLogin()
     else:
       self.errorMessage.set("Incorrect email or password format")
 
