@@ -1,6 +1,9 @@
+import os
 import tkinter as tk
 import sys
-sys.path.insert(1, '../Common')
+
+sys.path.insert(1, os.sep.join(os.path.realpath(__file__).split(os.sep)[0:-2]) + os.sep + "Common")
+
 from Validator import Validator
 
 class Register:

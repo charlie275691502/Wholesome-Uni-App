@@ -1,10 +1,10 @@
+import os
 from Login import Login
 from Register import Register
 from Enrollment import Enrollment
 import tkinter as tk
 import sys
-
-sys.path.insert(1, '../Common')
+sys.path.insert(1, os.sep.join(os.path.realpath(__file__).split(os.sep)[0:-2]) + os.sep + "Common")
 from StudentDataLoader import StudentDataLoader
 
 class App:
